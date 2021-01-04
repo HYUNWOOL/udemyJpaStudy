@@ -2,8 +2,10 @@ package com.udemyJpa.study.forUdemyJpa;
 
 import com.udemyJpa.study.forUdemyJpa.entity.Employee;
 import com.udemyJpa.study.forUdemyJpa.entity.Product;
+import com.udemyJpa.study.forUdemyJpa.entity.Student;
 import com.udemyJpa.study.forUdemyJpa.repository.EmployeeRepository;
 import com.udemyJpa.study.forUdemyJpa.repository.ProductRepository;
+import com.udemyJpa.study.forUdemyJpa.repository.StudentRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,7 +27,8 @@ class ForUdemyJpaApplicationTests {
     @Autowired
     EmployeeRepository employeeRepository;
 
-
+    @Autowired
+    StudentRepository studentRepository;
     @Autowired
     ProductRepository productRepository;
 
@@ -105,6 +109,54 @@ class ForUdemyJpaApplicationTests {
         productRepository.findAll(PageRequest.of(0,2, Sort.Direction.DESC,"name")).forEach(p-> System.out.println(p.toString()));
     }
 
+    @Test
+    public void testStudentCreate(){
+        Student student = new Student();
+        student.setFirstName("John");
+        student.setLastName("Lee");
+        student.setScore((long)88);
+
+        Student student2 = new Student();
+        student2.setFirstName("James");
+        student2.setLastName("thang");
+        student2.setScore((long)88);
+
+        studentRepository.save(student);
+        studentRepository.save(student2);
+    }
+
+    @Test
+    public void testFindAllStudent(){
+        System.out.println(studentRepository.findAllStudents());
+    }
+
+    @Test
+    public void testFindAllStudentpart(){
+
+        List<Object[]> part = studentRepository.findAllStudentsPart();
+
+        for(Object[] object :part){
+            System.out.println(object[0]);
+            System.out.println(object[1]);
+
+        }
+    }
+
+    @Test
+    public void testFindAllStudentByFirstName(){
+        System.out.println(studentRepository.findAllStudentByFirstName("James"));
+    }
+
+    @Test
+    public void testFindAllStudentForGivenScores(){
+        System.out.println(studentRepository.findAllStudentForGivenScores((long)70,(long)80));
+    }
+
+    @Test
+    @Transactional
+    public void testDeleteByFirstName(){
+        studentRepository.deleteStudentsByFirstName("James");
+    }
 }
 
 
