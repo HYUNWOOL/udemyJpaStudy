@@ -25,4 +25,10 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     @Modifying
     @Query("delete from Student where firstName =:firstName")
     void deleteStudentsByFirstName(@Param("firstName") String firstName);
+
+    @Query(value = "select * from student", nativeQuery = true)
+    List<Student> finadAllStudentNQ();
+
+    @Query(value = "select * from student where fname=:firstName", nativeQuery = true)
+    List<Student> fidByFirstNQ(@Param("firstName") String firstName);
 }

@@ -1,9 +1,12 @@
 package com.udemyJpa.study.forUdemyJpa;
 
+import com.udemyJpa.study.forUdemyJpa.entity.Check;
+import com.udemyJpa.study.forUdemyJpa.entity.CreditCard;
 import com.udemyJpa.study.forUdemyJpa.entity.Employee;
 import com.udemyJpa.study.forUdemyJpa.entity.Product;
 import com.udemyJpa.study.forUdemyJpa.entity.Student;
 import com.udemyJpa.study.forUdemyJpa.repository.EmployeeRepository;
+import com.udemyJpa.study.forUdemyJpa.repository.PaymentRepository;
 import com.udemyJpa.study.forUdemyJpa.repository.ProductRepository;
 import com.udemyJpa.study.forUdemyJpa.repository.StudentRepository;
 import org.junit.jupiter.api.Test;
@@ -31,6 +34,8 @@ class ForUdemyJpaApplicationTests {
     StudentRepository studentRepository;
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    PaymentRepository paymentRepository;
 
     @Test
     public void saveEmployee(){
@@ -156,6 +161,39 @@ class ForUdemyJpaApplicationTests {
     @Transactional
     public void testDeleteByFirstName(){
         studentRepository.deleteStudentsByFirstName("James");
+    }
+
+    @Test
+    public void testFindAllStudentNQ(){
+        studentRepository.finadAllStudentNQ();
+    }
+
+    @Test
+    public void testfindtByFirstName(){
+        studentRepository.fidByFirstNQ("Bill");
+    }
+
+
+    @Test
+    public void createPayment(){
+        CreditCard creditCard = new CreditCard();
+
+        creditCard.setId((long)123);
+        creditCard.setAmount(1000);
+        creditCard.setCardNumber("010");
+
+        paymentRepository.save(creditCard);
+    }
+
+    @Test
+    public void createCheckPayment(){
+        Check check = new Check();
+
+        check.setId((long)124);
+        check.setAmount(1000);
+        check.setCheckNumber("010");
+
+        paymentRepository.save(check);
     }
 }
 
